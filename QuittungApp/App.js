@@ -1,18 +1,56 @@
-import React from 'react'
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import {
+  StatusBar,
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+} from 'react-native'
+import { Camera } from 'expo-camera'
 import { AntDesign } from '@expo/vector-icons'
 
 export default function App() {
+  const [hasPermission, setHasPermission] = useState(null)
+  const [showCamera, setShowCamera] = useState(false)
+  const cameraRef = useRef(null)
+
+  useEffect(() => {
+    ;(async () => {
+      const { status } = await Camera.requestPermissionsAsync()
+      setHasPermission(status === 'granted')
+    })()
+  }, [])
+
+  const takePicture = async () => {
+    if (cameraRef.current) {
+      let photo = await cameraRef.current.takePictureAsync()
+      console.log(photo)
+      // Hier können Sie die aufgenommenen Foto-Daten weiterverarbeiten
+    }
+  }
+
+  const toggleCamera = () => {
+    setShowCamera(!showCamera)
+  }
+
   return (
     <View style={styles.container}>
-      <Text> Hallo </Text>
       <StatusBar style="auto" />
-      <View style={styles.cameraContainer}>
-        <View style={styles.cameraCircle}>
-          <AntDesign name="camera" size={24} color="black" />
+      {!showCamera ? (
+        <View style={styles.cameraIconContainer}>
+          <TouchableOpacity onPress={toggleCamera} style={styles.cameraIcon}>
+            <AntDesign name="camera" size={50} color="black" />
+          </TouchableOpacity>
         </View>
-      </View>
+      ) : (
+        <Camera style={styles.camera} ref={cameraRef}>
+          <View style={styles.cameraIconContainer}>
+            <TouchableOpacity onPress={takePicture} style={styles.cameraIcon}>
+              <AntDesign name="camera" size={50} color="black" />
+            </TouchableOpacity>
+          </View>
+        </Camera>
+      )}
     </View>
   )
 }
@@ -24,18 +62,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cameraContainer: {
-    position: 'absolute',
-    bottom: 40,
+  camera: {
+    flex: 1,
     width: '100%',
-    alignItems: 'center',
   },
-  cameraCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 2,
-    borderColor: 'black',
+  cameraIconContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingBottom: 40,
+  },
+  cameraIcon: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
