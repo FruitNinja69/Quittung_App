@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-picker/picker": "^2.7.2",
     "expo": "~50.0.14",
     "expo-camera": "^14.1.1",
     "expo-media-library": "^15.9.1",
