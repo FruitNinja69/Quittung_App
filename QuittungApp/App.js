@@ -15,7 +15,7 @@ export default function App() {
   const [hasPermission, setHasPermission] = useState(null)
   const [isCameraOpen, setIsCameraOpen] = useState(false)
   const [capturedPhotos, setCapturedPhotos] = useState([])
-  const [sortMode, setSortMode] = useState('ascending') // Default sort mode is ascending
+  const [sortMode, setSortMode] = useState('ascending')
   const cameraRef = useRef(null)
 
   useEffect(() => {
@@ -34,22 +34,18 @@ export default function App() {
       ]
       setCapturedPhotos(updatedPhotos)
       setIsCameraOpen(false)
-      sortCapturedPhotos(updatedPhotos) // Sort the captured photos after adding a new one
+      sortCapturedPhotos(updatedPhotos)
     }
   }
-
+  //hallo
   const sortCapturedPhotos = (photos) => {
-    // Check if there are any photos
     if (photos.length > 0) {
-      // Sort based on the selected mode
       if (sortMode === 'ascending') {
-        // Sort ascending based on the timestamp of the photo
         photos.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
       } else if (sortMode === 'descending') {
-        // Sort descending based on the timestamp of the photo
         photos.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
       }
-      setCapturedPhotos([...photos]) // Update the state with sorted photos
+      setCapturedPhotos([...photos])
     }
   }
 
@@ -59,19 +55,17 @@ export default function App() {
 
   const changeSortMode = (value) => {
     setSortMode(value)
-    sortCapturedPhotos(capturedPhotos) // Sort the captured photos after changing the sort mode
+    sortCapturedPhotos(capturedPhotos)
   }
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-      {/* Camera Button - Always visible */}
       <TouchableOpacity onPress={toggleCamera} style={styles.cameraButton}>
         <AntDesign name="camera" size={50} color="black" />
       </TouchableOpacity>
 
-      {/* Dropdown Menu */}
       <View style={styles.dropdownContainer}>
         <Picker
           selectedValue={sortMode}
@@ -93,7 +87,6 @@ export default function App() {
         </Camera>
       ) : (
         <>
-          {/* Anzeige der aufgenommenen Fotos hier, falls vorhanden */}
           <View style={styles.imageContainer}>
             {capturedPhotos.map((photo, index) => (
               <View key={index} style={styles.imageItem}>
