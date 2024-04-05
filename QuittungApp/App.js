@@ -41,9 +41,9 @@ export default function App() {
   const sortCapturedPhotos = (photos) => {
     if (photos.length > 0) {
       if (sortMode === 'ascending') {
-        photos.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
-      } else if (sortMode === 'descending') {
         photos.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+      } else if (sortMode === 'descending') {
+        photos.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
       }
       setCapturedPhotos([...photos])
     }
@@ -132,24 +132,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
   },
+
   imageItem: {
     margin: 10,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
     resizeMode: 'cover',
   },
+
   dropdownContainer: {
     position: 'absolute',
-    top: 20,
-    right: 20,
+    top: 0,
+    right: 0,
   },
   dropdown: {
     height: 50,
